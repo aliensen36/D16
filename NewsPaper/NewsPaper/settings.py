@@ -185,6 +185,8 @@ CACHES = {
     }
 }
 
+logger = logging.getLogger('django')
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -227,6 +229,18 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
+        'console_warning': {
+            'level': 'WARNING',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'warning',
+        },
+        'console_error': {
+            'level': 'ERROR',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'error',
+        },
         'general': {
             'level': 'INFO',
             'filters': ['require_debug_false'],
@@ -248,7 +262,7 @@ LOGGING = {
             'formatter': 'security',
             'filename': 'logs/security.log',
         },
-        'mail_admins': {
+        'mail_admin': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler',
@@ -257,7 +271,7 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'general'],
+            'handlers': ['console', 'console_warning', 'console_error', 'general'],
             'propagate': True,
         },
         'django.request': {
